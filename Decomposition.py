@@ -1,32 +1,33 @@
 import numpy as np
-import cvxpy as cp
-from scipy.linalg import null_space, orth, svd, solve_continuous_are
-# from sympy import Matrix
-from numpy.random import default_rng
-from control.matlab import lqr,place
-# from casadi.casadi import  horzcat, vertcat
-import Systems
+from scipy.linalg import null_space, orth
 
-def Decomposition(system):
+# class Decomposition:
+#     def __init__(self, system):
+#         A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N = decomposition(system)
+#         self.A = A_N
+#         self.B = B_N
+#         self.C = C_N
+#         self.F1 = F_N
+#         self.E1 = E_N1
+#         self.E2 = E_N2
+#
+#         self.tol = system.tol
+def decomposition(system):
     A = system.A
     B = system.B
     C = system.C
     G = system.G
     F1 = system.F1
+    F2 = system.F2
     E1 = system.E1
     E2 = system.E2
 
     J = G.T
-    # mytol = system.tol
 
     size_x = A.shape[1]
-    size_u = B.shape[1]
-    size_y = C.shape[0]
-    size_l = G.shape[0]
 
     R = orth(G.T)
     N = null_space(G)
-    print("N shape",N.shape)
 
     # print(np.linalg.matrix_rank(G@J))
     P1 = np.eye(size_x) - J @ np.linalg.pinv(G @ J) @ G
@@ -52,13 +53,23 @@ def Decomposition(system):
     E_N2 = N.T @ E2
     C_N = C @ N
 
-    return A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N
-# making random matrieces
-A, B, C, G, F_0, E_1, E_2 = Systems.Random_System(6,6,6,4)
+    class System_N:
+        def __init__(self, A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N):
+            self.A = A_N
+            self.B = B_N
+            self.C = C_N
+            self.F1 = F_N
+            self.E1 = E_N1
+            self.E2 = E_N2
 
-mytol = 0.000001
-ObserverCost   = {'Q': 100*np.eye(4), 'R': np.array([[C.shape[0]]])}
-#init system
-# system = Systems.System(A, B, C, G, F_0, E_1, E_2, ObserverCost, mytol)
-#decomposition
-# A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R = Decomposition(system)
+            self.N = N
+            self.A_R = A_R
+            self.E_R = E_R
+
+            self.F2 = system.F2
+
+            self.tol = system.tol
+
+    return System_N(A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N)
+
+

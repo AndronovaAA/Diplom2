@@ -40,7 +40,7 @@ def output_feedback_controller(system):
 
     result = prob.solve()
     if result < 1:
-        print("Result for LMI is obtained")
+        print("Result for LMI(output feedback) is obtained")
     else:
         print("no solution for LMI")
 
