@@ -37,7 +37,7 @@ def check_output_feedback(system,A_K,B_K,C_K,D_K,numDelta, N = False):
             stable_systems += 1
     return stable_systems/numDelta * 100
 
-def check_state_feedback(system, K, numDelta):
+def check_state_feedback(system, K, numDelta, N = False):
     stable_systems = 0
 
     A = system.A
@@ -46,15 +46,31 @@ def check_state_feedback(system, K, numDelta):
     F1 = system.F1
     E1 = system.E1
     E2 = system.E2
-    m = F1.shape[1]
+    m = E1.shape[0]
+    # for i in range(numDelta):
+    #     Delta = np.diag(np.random.rand(m, ))
+    #     # Checking eigenvalues to prove stability
+    #     Acl = A + B @ K + F1 @ Delta @ (E1+E2@K)
+    #     e1, _ = np.linalg.eig(Acl)
+    #     eigNeg = len(list(filter(lambda x: x.real < 0, e1)))
+    #     if eigNeg == len(e1):
+    #         stable_systems += 1
+
+        # add N for the system with decomposition
     for i in range(numDelta):
         Delta = np.diag(np.random.rand(m, ))
+
         # Checking eigenvalues to prove stability
-        Acl = A + B @ K + F1 @ Delta @ (E1+E2@K)
+        if N is False:
+            Acl = A + B @ K + F1 @ Delta @ (E1+E2@K)
+        else:
+            N = system.N
+            Acl = A + B @ K + F1 @ N @ Delta @ (E1+E2@K)
         e1, _ = np.linalg.eig(Acl)
         eigNeg = len(list(filter(lambda x: x.real < 0, e1)))
         if eigNeg == len(e1):
             stable_systems += 1
-    return stable_systems/numDelta * 100
+    return stable_systems / numDelta * 100
+
 
 

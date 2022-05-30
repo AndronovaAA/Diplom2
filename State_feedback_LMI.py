@@ -17,8 +17,8 @@ def state_feedback_controller(system):
 
     LMI = cp.bmat([
         [Q @ A.T + L.T @ B.T + A @ Q + B @ L, F, Q @ E1.T + L.T @ E2.T],
-        [F.T, -np.eye(size_u), np.zeros((size_u, size_u))],
-        [E1 @ Q + E2 @ L, np.zeros((size_u, size_u)), -np.eye(size_u)]
+        [F.T, -np.eye(size_u), np.zeros((size_u, size_x))],
+        [E1 @ Q + E2 @ L, np.zeros((size_x, size_u)), -np.eye(size_x)]
     ])
 
     constraints = [Q >> 0.001 * np.eye(size_x), LMI << 0]
