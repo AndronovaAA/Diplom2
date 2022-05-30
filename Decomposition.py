@@ -1,17 +1,6 @@
 import numpy as np
 from scipy.linalg import null_space, orth
 
-# class Decomposition:
-#     def __init__(self, system):
-#         A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N = decomposition(system)
-#         self.A = A_N
-#         self.B = B_N
-#         self.C = C_N
-#         self.F1 = F_N
-#         self.E1 = E_N1
-#         self.E2 = E_N2
-#
-#         self.tol = system.tol
 def decomposition(system):
     A = system.A
     B = system.B
@@ -48,9 +37,10 @@ def decomposition(system):
     A_R = N.T @ A_c @ R
     B_N = N.T @ B_c
     F_N = N.T @ F_c
-    E_N1 = N.T @ E1 @ N
-    E_R = N.T @ E1 @ R
-    E_N2 = N.T @ E2
+
+    E_N1 = E1 @ N
+    E_R = E1 @ R
+    E_N2 = E2
     C_N = C @ N
 
     class System_N:
@@ -69,7 +59,7 @@ def decomposition(system):
             self.F2 = system.F2
 
             self.tol = system.tol
+            self.observerCost = system.observerCost
 
     return System_N(A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N)
-
 

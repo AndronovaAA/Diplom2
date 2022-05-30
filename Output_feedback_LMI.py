@@ -28,13 +28,13 @@ def output_feedback_controller(system):
                    [A.T+ A_K_hat + C.T@D_K.T@B.T, X_1 @ A + A.T@X_1 + B_K_hat @ C +C.T@B_K_hat.T,
                     X_1@F1, E1.T + C.T @ D_K.T @ E2.T],
                    [F1.T+F2.T@D_K.T@B.T,F1.T@X_1+F2.T@B_K_hat.T,-np.eye(size_u),F2.T@D_K.T@E2.T],
-                   [E1@Y_1+E2@C_K_hat, E1+E2@D_K@C,E2@D_K@F2,-np.eye(size_x)]])
+                   [E1@Y_1+E2@C_K_hat, E1+E2@D_K@C,E2@D_K@F2,-np.eye(size_u)]])
 
     constr = cp.bmat([[Y_1, np.eye(size_x)],
                       [np.eye(size_x), X_1]
                       ])
 
-    constraints = [X_1 >> 0.001 * np.eye(size_x), Y_1 >> 0.001 * np.eye(size_x), LMI << -0.01 * np.eye(size_x + size_x + size_u + size_x),
+    constraints = [X_1 >> 0.001 * np.eye(size_x), Y_1 >> 0.001 * np.eye(size_x), LMI << -0.01 * np.eye(size_x + size_x + size_u + size_u),
                    constr >> 0.001 * np.eye(size_x + size_x), Y_2 >> 0.001 * np.eye(size_x)]
     prob = cp.Problem(cp.Minimize(0), constraints=constraints)
 
