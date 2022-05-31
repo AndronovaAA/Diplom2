@@ -11,14 +11,15 @@ def state_feedback_controller(system):
 
     size_x = A.shape[1]
     size_u = B.shape[1]
+    size_f = F.shape[1]
 
     Q = cp.Variable((size_x, size_x))
     L = cp.Variable((size_u, size_x))
 
     LMI = cp.bmat([
         [Q @ A.T + L.T @ B.T + A @ Q + B @ L, F, Q @ E1.T + L.T @ E2.T],
-        [F.T, -np.eye(size_u), np.zeros((size_u, size_u))],
-        [E1 @ Q + E2 @ L, np.zeros((size_u, size_u)), -np.eye(size_u)]
+        [F.T, -np.eye(size_f), np.zeros((size_f, size_f))],
+        [E1 @ Q + E2 @ L, np.zeros((size_f, size_f)), -np.eye(size_f)]
     ])
 
     constraints = [Q >> 0.001 * np.eye(size_x), LMI << 0]
