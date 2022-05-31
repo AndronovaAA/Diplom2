@@ -43,6 +43,12 @@ def decomposition(system):
     E_N2 = E2
     C_N = C @ N
 
+    size_n = N.shape[1]
+    size_y = C_N.shape[0]
+    F2 = np.zeros((size_y, size_x))
+
+    # print(E_N2.shape)
+
     class System_N:
         def __init__(self, A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N):
             self.A = A_N
@@ -56,7 +62,7 @@ def decomposition(system):
             self.A_R = A_R
             self.E_R = E_R
 
-            self.F2 = system.F2
+            self.F2 = F2
 
             self.tol = system.tol
             self.observerCost = system.observerCost

@@ -13,9 +13,9 @@ from Observers import observer_output
 # Making Random matrices without F2
 size_x = 6
 size_y = 6
-size_u = 6
+size_u = 4
 size_l = 4
-A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x,size_y,size_u,size_l, F2 = False)
+A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x, size_u, size_y, size_l, F2 = False)
 
 # Determining other parameters
 mytol = 0.000001
@@ -43,18 +43,18 @@ L = observer_output(system_N)
 stab_ob = check_observer(system_N, L)
 print("")
 
-##############################
-#state feedback(decomposition+LMI+observer)
-#x_dot = (A+F1*Delta*E1)x + (B+F1*Delta*E2)u + J*lambda
-#G*x_dot = 0
-#y=Cx
+#############################
+# state feedback(decomposition+LMI+observer)
+# x_dot = (A+F1*Delta*E1)x + (B+F1*Delta*E2)u + J*lambda
+# G*x_dot = 0
+# y=Cx
 
 # Making Random matrices without F2
 size_x = 6
 size_y = 6
 size_u = 6
 size_l = 4
-A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x,size_y,size_u,size_l, F2 = False)
+A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x, size_u, size_y, size_l, F2 = False)
 
 # Determining other parameters
 mytol = 0.000001
@@ -89,7 +89,7 @@ size_x = 6
 size_y = 6
 size_u = 6
 size_l = 4
-A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x,size_y,size_u,size_l, F2 = False)
+A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x, size_u, size_y, size_l, F2 = False)
 
 # Determining other parameters
 mytol = 0.000001
@@ -110,7 +110,7 @@ stab2 = check_state_feedback(system2,K,num_d)
 print("% of stable systems(state feedback):", stab2)
 print("")
 
-##########
+#########
 #output feedback case(LMI)
 #x_dot = (A+F1*Delta*E1)x + (B+F1*Delta*E2)u
 #y = (C+F2*Delta*E2)x
@@ -119,7 +119,7 @@ size_x = 6
 size_y = 6
 size_u = 6
 size_l = 4
-A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x,size_y,size_u,size_l, F2 = True)
+A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x, size_u, size_y, size_l, F2 = True)
 
 # Determining other parameters
 mytol = 0.000001
@@ -139,7 +139,7 @@ num_d = 1000
 stab3 = check_output_feedback(system3, A_K3, B_K3, C_K3,D_K3, num_d)
 print("% of stable systems(output feedback):", stab3)
 print("")
-#######
+######
 #state feedback controller(decomposition+LMI)
 #x_dot = (A+F1*Delta*E1)x + (B+F1*Delta*E2)u + J*lambda
 #G*x_dot = 0
@@ -149,7 +149,7 @@ size_x = 6
 size_y = 6
 size_u = 6
 size_l = 4
-A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x,size_y,size_u,size_l, F2 = False)
+A, B, C, G, F_1, F_2, E_1, E_2 = Random_System(size_x, size_u, size_y, size_l, F2 = False)
 
 # Determining other parameters
 mytol = 0.000001
