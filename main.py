@@ -1,8 +1,8 @@
 import numpy as np
 from Systems import Random_System, System
-from Decomposition import decomposition
+from Decomposition import decomposition, decomposition_get_c
 from Output_feedback_LMI import output_feedback_controller
-from State_feedback_LMI import state_feedback_controller
+from State_feedback_LMI import state_feedback_controller,state_feedback_controller_gamma
 from Check_stability import check_output_feedback, check_state_feedback,check_observer
 from Observers import observer_output
 
@@ -99,7 +99,7 @@ ObserverCost   = {'Q': 100*np.eye(size_l), 'R': 100*np.eye(size_y)}
 system2 = System(A, B, C, G, F_1, F_2, E_1, E_2, ObserverCost, mytol)
 
 # Getting control output feedback for system without decomposition
-K = state_feedback_controller(system2)
+K = state_feedback_controller_gamma(system2)
 
 #Number of deltas to check
 num_d = 1000
@@ -172,4 +172,13 @@ num_d = 1000
 stab = check_state_feedback(system_N, K, num_d)
 print("% of stable systems(output feedback + decomposition):", stab)
 print("")
+# A_c, B_c, F_c = decomposition_get_c(system)
+# m = E_1.shape[0]
+# K_n = K @ np.linalg.pinv(system_N.N)
+# Delta = np.diag(np.random.rand(m, ))
+# print((A_c+F_c@Delta@E_1).shape)
+# ddx = (A_c+F_c@Delta@E_1 + B_c @ K_n + F_c@Delta@E_2 @ K_n)
+# e1, _ = np.linalg.eig(ddx)
+# print(e1)
+
 

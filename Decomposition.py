@@ -69,3 +69,37 @@ def decomposition(system):
 
     return System_N(A_N, B_N, C_N, F_N, E_N1, E_N2, A_R, E_R, N)
 
+def decomposition_get_c(system):
+    A = system.A
+    B = system.B
+    C = system.C
+    G = system.G
+    F1 = system.F1
+    F2 = system.F2
+    E1 = system.E1
+    E2 = system.E2
+
+    J = G.T
+
+    size_x = A.shape[1]
+
+    R = orth(G.T)
+    N = null_space(G)
+
+    # print(np.linalg.matrix_rank(G@J))
+    P1 = np.eye(size_x) - J @ np.linalg.pinv(G @ J) @ G
+    # print(('P1 rank: ', np.linalg.matrix_rank(P1, tol=mytol)))
+    # l, _ = np.linalg.eig(P1)
+    # print(('P1 eig: ', np.round(l, 2)))
+
+    P2 = N @ N.T
+    # print(('P2 rank: ', np.linalg.matrix_rank(P2, tol=mytol)))
+    # l, _ = np.linalg.eig(P2)
+    # print(('P2 eig: ', np.round(l, 2)))
+
+    A_c = P2 @ A
+    B_c = P2 @ B
+    F_c = P2 @ F1
+
+    return A_c,B_c,F_c
+
