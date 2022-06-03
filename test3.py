@@ -140,26 +140,3 @@ print("z_des")
 print(z_des)
 print("z")
 print(y[-1,:])
-
-# # L = observer_output(system_N)
-# def observer_controller(state, t, A_N, B_N, F_N, E_N1, E_2, Delta, K_n, z_des, dz_des, L, C_N):
-#
-#     x, x_hat = np.split(state, 2)
-#
-#     u = -np.dot(K_n, x_hat-z_des)
-#
-#     ddz = (A_N+F_N@Delta@E_N1) @ x + (B_N + F_N@Delta@E_2) @ u
-#
-#     y = np.dot(C_N, x)
-#
-#     #
-#     y_hat = np.dot(C_N, x_hat)
-#     e = y - y_hat
-#
-#     dx_hat = np.dot(A, x_hat) + np.dot(B, u) + np.dot(L, e)
-#     # print(dx_hat)
-#
-#     #
-#     dstate = np.hstack((ddz, dx_hat))
-#     # dstate = dx, dx_hat
-#     return dstate
